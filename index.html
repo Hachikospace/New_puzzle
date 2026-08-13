@@ -8,7 +8,8 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            background-color: #0f172a;
+            /* Changed to completely black as requested */
+            background-color: #000000; 
             color: #fff;
             margin: 0;
             padding: 0;
@@ -29,9 +30,9 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 30px;
             box-sizing: border-box;
-            border-right: 1px solid #334155;
+            /* Removed the middle border line */
         }
 
         .busan-title {
@@ -42,29 +43,55 @@
             text-align: left;
         }
 
+        /* --- RESTORED UPSCOLLING --- */
         .scroll-wrapper {
             flex-grow: 1;
-            overflow-y: auto;
+            overflow: hidden; /* Hide the overflow for scrolling */
+            position: relative;
             margin-bottom: 20px;
             padding-right: 10px;
             text-align: left;
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
         }
 
-        .scroll-wrapper::-webkit-scrollbar { width: 5px; }
-        .scroll-wrapper::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .scroll-inner {
+            /* Infinite upscrolling animation */
+            animation: autoScroll 25s linear infinite;
+            padding-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
 
-        /* --- VIDEO SECTION (Bottom Left 50% width of panel) --- */
+        @keyframes autoScroll {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+
+        .scroll-inner h3 {
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+        .color-1 { color: #00f2fe; }
+        .color-2 { color: #4ade80; }
+        .color-3 { color: #ffeb3b; }
+
+        /* --- VIDEO SECTION --- */
         .video-container {
             width: 100%;
-            background: #1e293b;
+            background-color: #000000; /* Black background to match puzzle */
             padding: 10px;
             border-radius: 12px;
             border: 2px solid #38bdf8;
+            box-sizing: border-box; /* Ensures the border does not get cropped */
+            margin-top: auto; 
         }
 
         .video-container iframe {
             width: 100%;
+            display: block; /* Fixes bottom gap cropping */
             aspect-ratio: 16 / 9;
             border-radius: 8px;
             border: none;
@@ -78,7 +105,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background-color: #020617;
+            background-color: #000000; /* Black background */
         }
 
         .game-heading {
@@ -122,7 +149,7 @@
             height: 500px;
             display: grid;
             border: 5px solid #334155;
-            background-color: #1e293b;
+            background-color: #000000; /* Black background */
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
         }
@@ -130,7 +157,7 @@
         .tile {
             width: 100%;
             height: 100%;
-            background-size: 800px 500px; /* Must match board size */
+            background-size: 800px 500px; 
             cursor: grab;
             box-sizing: border-box;
             border: 0.5px solid rgba(255, 255, 255, 0.1);
@@ -153,7 +180,7 @@
             align-items: center;
         }
         .popup-content {
-            background: #1e293b;
+            background: #000000;
             padding: 40px;
             border-radius: 15px;
             border: 2px solid #38bdf8;
@@ -172,23 +199,36 @@
         <div class="left-panel">
             <h2 class="busan-title">Explore Busan</h2>
             
+            <!-- Upward Scrolling Area -->
             <div class="scroll-wrapper">
-                <p><strong>Busan (부산)</strong> is South Korea's vibrant coastal capital. A magnificent blend of beautiful beaches, majestic mountains, and futuristic skyscrapers.</p>
-                <h3>📊 Key Facts</h3>
-                <ul>
-                    <li>The 6th busiest container port globally.</li>
-                    <li>Hosts the Busan International Film Festival (BIFF).</li>
-                    <li>Famous for "Satoori" (the energetic local dialect).</li>
-                </ul>
-                <h3>🍜 Local Delicacies</h3>
-                <ul>
-                    <li>Dwaeji Gukbap (Pork Soup)</li>
-                    <li>Ssiat Hoddeok (Seed Pancakes)</li>
-                    <li>Busan Eomuk (Famous Fish Cakes)</li>
-                </ul>
+                <div class="scroll-inner">
+                    <p><strong>Busan (부산)</strong> is South Korea's vibrant coastal capital. A magnificent blend of beautiful beaches, majestic mountains, and futuristic skyscrapers.</p>
+                    
+                    <h3 class="color-1">📊 Key Facts</h3>
+                    <ul>
+                        <li>The 6th busiest container port globally.</li>
+                        <li>Hosts the famous Busan International Film Festival (BIFF).</li>
+                        <li>Famous for "Satoori" (the energetic local dialect).</li>
+                    </ul>
+
+                    <h3 class="color-2">🍜 Local Delicacies</h3>
+                    <ul>
+                        <li>Dwaeji Gukbap (Hearty Pork Soup)</li>
+                        <li>Ssiat Hoddeok (Sweet Seed Pancakes)</li>
+                        <li>Busan Eomuk (Famous Fish Cakes)</li>
+                    </ul>
+
+                    <h3 class="color-3">📸 Famous Landmarks</h3>
+                    <ul>
+                        <li>Haeundae Beach & Luxury Skyscrapers</li>
+                        <li>Gamcheon Culture Village (Machu Picchu of Busan)</li>
+                        <li>Haedong Yonggungsa Ocean Temple</li>
+                        <li>Jagalchi Seafood Market</li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- YouTube Video Loop enabled -->
+            <!-- YouTube Video - Visible Border & Looping -->
             <div class="video-container">
                 <iframe 
                     src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&loop=1&playlist=Sg_oX2nYqSY" 
@@ -239,7 +279,7 @@
         let isPlaying = false;
         let firstTile = null;
 
-        // Image List
+        // Image List (Changes randomly every time you click Easy/Medium/Hard)
         const images = [
             "https://media.istockphoto.com/id/859747978/photo/gamcheon-culture-village-busan-south-korea.jpg?s=612x612&w=0&k=20&c=bIb40JVuf8nFtWN3Z5RybLc4ioMjyMsJEDy662Z1LLM=",
             "https://media.istockphoto.com/id/1168177363/photo/the-temple-in-busan-south-korea.jpg?s=612x612&w=0&k=20&c=yRaOcwzzAjg-LtKlJVO-Kj_l-RMtqdJi3J-y3Id7Z9I=",
@@ -258,7 +298,7 @@
             else if (difficulty === 'medium') { cols = 4; rows = 4; timeLeft = 60; }
             else { cols = 5; rows = 4; timeLeft = 90; }
 
-            // Pick a random image
+            // Pick a random image each game
             const randomImg = images[Math.floor(Math.random() * images.length)];
             initBoard(cols, rows, randomImg);
             shuffleTiles();
@@ -342,7 +382,7 @@
             document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
         }
 
-        // Initialize with a static board view
+        // Initialize with a static board view before a difficulty is selected
         window.onload = () => initBoard(4, 4, images[0]);
     </script>
 </body>
