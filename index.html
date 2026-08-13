@@ -1,4 +1,11 @@
-html
+To make the video player larger, fit the standard YouTube aspect ratio perfectly (so you don't get black borders), and request the highest video quality, we can apply two main changes:
+
+1. **Perfect Aspect Ratio Sizing:** Instead of using a fixed height (`200px`), I replaced it with modern CSS `aspect-ratio: 16 / 9;` and `width: 100%;`. This guarantees the iframe will automatically resize to match the exact dimensions of standard YouTube HD videos, making it much bigger and perfectly framed without black bars.
+2. **Force HD Quality:** I appended `&vq=hd1080` to the YouTube URL. This tells the YouTube player to attempt to play the video in 1080p HD quality right away.
+
+Here is your updated code:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,7 +128,8 @@ html
 
         .video-container iframe {
             width: 100%;
-            height: 200px; 
+            /* 16:9 Aspect Ratio fits standard YouTube sizes perfectly so it gets bigger naturally */
+            aspect-ratio: 16 / 9; 
             border: none;
             border-radius: 8px;
         }
@@ -338,13 +346,13 @@ html
                 </div>
             </div>
 
-            <!-- YouTube Video Section (Fixed Error 153) -->
+            <!-- YouTube Video Section -->
             <div class="video-container">
                 <h3 class="video-title">Best places to visit in Busan</h3>
-                <!-- Removed problematic loop and playlist variables causing YouTube Configuration Error 153 -->
+                <!-- Added &vq=hd1080 to request 1080p HD quality automatically -->
                 <iframe 
                     id="busan-video"
-                    src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1" 
+                    src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1&vq=hd1080" 
                     allow="autoplay; encrypted-media; picture-in-picture" 
                     allowfullscreen>
                 </iframe>
