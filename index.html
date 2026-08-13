@@ -122,7 +122,7 @@
             margin-top: auto; 
         }
 
-        .video-container iframe {
+        .video-container video {
             width: 100%;
             display: block; 
             aspect-ratio: 16 / 9;
@@ -130,6 +130,7 @@
             border: 1px solid #ff007f; 
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            background-color: #000;
         }
 
         /* --- RIGHT PANEL --- */
@@ -374,11 +375,11 @@
             </div>
 
             <div class="video-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1&vq=hd1080" 
-                    allow="autoplay; encrypted-media; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
+                <!-- Swapped YouTube iframe for auto-looping HTML5 native video -->
+                <video autoplay loop muted playsinline>
+                    <source src="https://raw.githubusercontent.com/Hachikospace/New_puzzle/bcc3a145457c281ad8cd750979c7ab9c885e0a58/vidssave.com%2010%20Best%20Places%20to%20Visit%20in%20Busan%2C%20South%20Korea%20Travel%20Video%20Travel%20Guide%20SKY%20Travel%20720P.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
 
@@ -601,6 +602,3 @@
     </script>
 </body>
 </html>
-https://github.com/Hachikospace/New_puzzle/blob/bcc3a145457c281ad8cd750979c7ab9c885e0a58/vidssave.com%2010%20Best%20Places%20to%20Visit%20in%20Busan%2C%20South%20Korea%20Travel%20Video%20Travel%20Guide%20SKY%20Travel%20720P.mp4
-
-```
