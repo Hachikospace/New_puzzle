@@ -47,7 +47,7 @@
         .content-container, .video-container, .puzzle-container {
             background-color: rgba(0, 0, 0, 0.7); 
             border-radius: 12px;
-            border: 2px solid #ff007f;
+            /* Border removed completely as requested */
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             backdrop-filter: blur(5px);
             box-sizing: border-box;
@@ -125,7 +125,7 @@
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
-            margin-top: auto; 
+            margin-top: auto; /* Forces video to absolute bottom of left panel */
             padding: 12px;
         }
 
@@ -143,9 +143,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            /* Padding identical to left-panel for perfectly leveled bottoms */
+            padding: 30px; 
             position: relative; 
+        }
+
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Centers controls dynamically in the space above puzzle */
         }
 
         .game-heading {
@@ -204,6 +212,7 @@
         .puzzle-container {
             padding: 12px;
             display: inline-block;
+            margin-top: auto; /* Forces puzzle to absolute bottom, flawlessly leveling with video */
         }
 
         #game-board {
@@ -212,8 +221,8 @@
             display: grid;
             background-color: #000;
             position: relative;
-            border-radius: 8px; /* Inner curve matching the iframe */
-            overflow: hidden; /* Clips the puzzle pieces perfectly to the rounded corners! */
+            border-radius: 8px; 
+            overflow: hidden; 
         }
 
         .tile {
@@ -268,7 +277,6 @@
         <!-- Left Panel: 60% Width -->
         <div class="left-panel">
             
-            <!-- NEW CONTENT CONTAINER -->
             <div class="content-container">
                 <h2 class="busan-title">Explore Busan</h2>
                 
@@ -368,7 +376,6 @@
                 </div>
             </div>
 
-            <!-- VIDEO CONTAINER -->
             <div class="video-container">
                 <iframe 
                     src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1&vq=hd1080" 
@@ -380,19 +387,22 @@
 
         <!-- Right Panel: 40% Width -->
         <div class="right-panel">
-            <h1 class="game-heading">Play puzzle and win chocolate 🍫</h1>
             
-            <div class="difficulty-btns">
-                <button class="btn-easy" onclick="selectLevel('easy')">Easy (3x3)</button>
-                <button class="btn-medium" onclick="selectLevel('medium')">Medium (3x4)</button>
-                <button class="btn-hard" onclick="selectLevel('hard')">Hard (4x4)</button>
+            <div class="controls-wrapper">
+                <h1 class="game-heading">Play puzzle and win chocolate 🍫</h1>
+                
+                <div class="difficulty-btns">
+                    <button class="btn-easy" onclick="selectLevel('easy')">Easy (3x3)</button>
+                    <button class="btn-medium" onclick="selectLevel('medium')">Medium (3x4)</button>
+                    <button class="btn-hard" onclick="selectLevel('hard')">Hard (4x4)</button>
+                </div>
+
+                <button class="start-btn" onclick="startGame()">Start Game</button>
+
+                <div class="timer-board">Time Left: <span id="time">30</span>s</div>
             </div>
 
-            <button class="start-btn" onclick="startGame()">Start Game</button>
-
-            <div class="timer-board">Time Left: <span id="time">30</span>s</div>
-
-            <!-- PUZZLE CONTAINER matches Video & Content Containers -->
+            <!-- PUZZLE CONTAINER matches Video level position perfectly -->
             <div class="puzzle-container">
                 <div id="game-board"></div>
             </div>
