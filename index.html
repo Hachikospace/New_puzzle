@@ -33,7 +33,7 @@
             box-sizing: border-box;
         }
 
-        /* --- LEFT PANEL (60% for Content & Video) --- */
+        /* --- LEFT PANEL --- */
         .left-panel {
             width: 60%;
             height: 100%;
@@ -41,8 +41,26 @@
             flex-direction: column;
             padding: 30px;
             box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.4); /* Glassmorphism effect */
+        }
+
+        /* --- SHARED STYLES FOR CONTENT, VIDEO, AND PUZZLE BOXES --- */
+        .content-container, .video-container, .puzzle-container {
+            background-color: rgba(0, 0, 0, 0.7); 
+            border-radius: 12px;
+            border: 2px solid #ff007f;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             backdrop-filter: blur(5px);
+            box-sizing: border-box;
+        }
+
+        /* --- CONTENT BOX (Top Left) --- */
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 25px;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
 
         .busan-title {
@@ -59,56 +77,56 @@
             flex-grow: 1;
             overflow: hidden; 
             position: relative;
-            margin-bottom: 20px;
-            padding-right: 15px;
             text-align: left;
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
         }
 
         .scroll-inner {
-            /* Slowed down slightly for the longer text */
-            animation: autoScroll 45s linear infinite;
-            padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            /* Slower, reduced speed for comfortable reading */
+            animation: autoScroll 90s linear infinite;
+        }
+
+        .scroll-text {
             font-size: 16px;
             line-height: 1.6;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            padding-right: 15px;
+            /* Large gap at the bottom before the duplicated text starts */
+            padding-bottom: 50px; 
         }
 
+        /* Translates exactly half of the container height (1 text block) to create a flawless loop */
         @keyframes autoScroll {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(-100%); }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
         }
 
-        .scroll-inner h3 {
+        .scroll-text h3 {
             margin-top: 25px;
             margin-bottom: 10px;
             border-bottom: 1px dashed rgba(255,255,255,0.4);
             padding-bottom: 5px;
         }
         
-        /* Heading Colors */
         .color-1 { color: #00d2ff; }
         .color-2 { color: #4ade80; }
         .color-3 { color: #ffeb3b; }
         .color-4 { color: #ff007f; }
         .color-5 { color: #f472b6; }
         
-        .scroll-inner ul { padding-left: 20px; margin-top: 5px; }
-        .scroll-inner li { margin-bottom: 8px; }
+        .scroll-text ul { padding-left: 20px; margin-top: 5px; }
+        .scroll-text li { margin-bottom: 8px; }
 
-        /* --- VIDEO SECTION --- */
+        /* --- VIDEO SECTION (Bottom Left) --- */
         .video-container {
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
             margin-top: auto; 
-            background-color: rgba(0, 0, 0, 0.7); 
             padding: 12px;
-            border-radius: 12px;
-            border: 2px solid #ff007f;
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .video-container iframe {
@@ -119,7 +137,7 @@
             border: none;
         }
 
-        /* --- RIGHT PANEL (40% for Puzzle) --- */
+        /* --- RIGHT PANEL --- */
         .right-panel {
             width: 40%;
             display: flex;
@@ -127,11 +145,6 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            border-left: 2px solid rgba(255,255,255,0.1);
-            
-            /* Crucial: Keeps popups confined to this panel only */
             position: relative; 
         }
 
@@ -187,14 +200,9 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* --- PUZZLE CONTAINER (Matches Video Container) --- */
+        /* --- PUZZLE CONTAINER --- */
         .puzzle-container {
-            background-color: rgba(0, 0, 0, 0.7); 
             padding: 12px;
-            border-radius: 12px;
-            border: 2px solid #ff007f;
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: inline-block;
         }
 
@@ -214,7 +222,6 @@
             background-size: 640px 480px; 
             cursor: grab;
             box-sizing: border-box;
-            /* Extra thin border */
             border: 1px solid rgba(255, 255, 255, 0.08); 
             transition: opacity 0.2s;
         }
@@ -260,53 +267,108 @@
         
         <!-- Left Panel: 60% Width -->
         <div class="left-panel">
-            <h2 class="busan-title">Explore Busan</h2>
             
-            <div class="scroll-wrapper">
-                <div class="scroll-inner">
-                    <p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
-                    
-                    <h3 class="color-1">📊 Key Facts</h3>
-                    <ul>
-                        <li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
-                        <li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
-                        <li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
-                    </ul>
+            <!-- NEW CONTENT CONTAINER -->
+            <div class="content-container">
+                <h2 class="busan-title">Explore Busan</h2>
+                
+                <div class="scroll-wrapper">
+                    <!-- Scroll Inner contains the text duplicated twice for a flawless infinite loop -->
+                    <div class="scroll-inner">
+                        
+                        <!-- BLOCK 1 -->
+                        <div class="scroll-text">
+                            <p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
+                            
+                            <h3 class="color-1">📊 Key Facts</h3>
+                            <ul>
+                                <li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
+                                <li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
+                                <li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
+                            </ul>
 
-                    <h3 class="color-2">🎭 Tradition & Culture</h3>
-                    <ul>
-                        <li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
-                        <li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
-                        <li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
-                    </ul>
+                            <h3 class="color-2">🎭 Tradition & Culture</h3>
+                            <ul>
+                                <li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
+                                <li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
+                                <li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
+                            </ul>
 
-                    <h3 class="color-3">👥 People & Lifestyle</h3>
-                    <ul>
-                        <li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
-                        <li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
-                        <li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
-                    </ul>
+                            <h3 class="color-3">👥 People & Lifestyle</h3>
+                            <ul>
+                                <li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
+                                <li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
+                                <li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
+                            </ul>
 
-                    <h3 class="color-4">🍜 Iconic Local Food</h3>
-                    <ul>
-                        <li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
-                        <li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
-                        <li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
-                    </ul>
+                            <h3 class="color-4">🍜 Iconic Local Food</h3>
+                            <ul>
+                                <li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
+                                <li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
+                                <li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
+                            </ul>
 
-                    <h3 class="color-5">📸 Famous Landmarks</h3>
-                    <ul>
-                        <li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
-                        <li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
-                        <li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
-                        <li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
-                    </ul>
+                            <h3 class="color-5">📸 Famous Landmarks</h3>
+                            <ul>
+                                <li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
+                                <li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
+                                <li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
+                                <li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
+                            </ul>
 
-                    <h3 class="color-1">😲 Fun Fact</h3>
-                    <p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
+                            <h3 class="color-1">😲 Fun Fact</h3>
+                            <p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
+                        </div>
+
+                        <!-- BLOCK 2 (Exact Clone of Block 1 for seamless scroll looping) -->
+                        <div class="scroll-text">
+                            <p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
+                            
+                            <h3 class="color-1">📊 Key Facts</h3>
+                            <ul>
+                                <li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
+                                <li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
+                                <li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
+                            </ul>
+
+                            <h3 class="color-2">🎭 Tradition & Culture</h3>
+                            <ul>
+                                <li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
+                                <li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
+                                <li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
+                            </ul>
+
+                            <h3 class="color-3">👥 People & Lifestyle</h3>
+                            <ul>
+                                <li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
+                                <li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
+                                <li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
+                            </ul>
+
+                            <h3 class="color-4">🍜 Iconic Local Food</h3>
+                            <ul>
+                                <li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
+                                <li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
+                                <li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
+                            </ul>
+
+                            <h3 class="color-5">📸 Famous Landmarks</h3>
+                            <ul>
+                                <li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
+                                <li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
+                                <li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
+                                <li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
+                            </ul>
+
+                            <h3 class="color-1">😲 Fun Fact</h3>
+                            <p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
+            <!-- VIDEO CONTAINER -->
             <div class="video-container">
                 <iframe 
                     src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1&vq=hd1080" 
@@ -330,7 +392,7 @@
 
             <div class="timer-board">Time Left: <span id="time">30</span>s</div>
 
-            <!-- Puzzle Container matches Video Container -->
+            <!-- PUZZLE CONTAINER matches Video & Content Containers -->
             <div class="puzzle-container">
                 <div id="game-board"></div>
             </div>
@@ -358,11 +420,11 @@
         const timeDisplay = document.getElementById('time');
         
         let timerId;
-        let timeLeft = 30; // Strictly 30 seconds for all levels
+        let timeLeft = 30; 
         let isPlaying = false;
         
-        let firstTile = null; // Used for clicking fallback
-        let dragSrcEl = null; // Used for drag & drop
+        let firstTile = null; 
+        let dragSrcEl = null; 
 
         // Current grid state
         let currentCols = 3;
@@ -376,7 +438,6 @@
             "https://media.istockphoto.com/id/959595614/photo/aerial-view-of-deep-water-port-with-cargo-ship-and-container.jpg?s=612x612&w=0&k=20&c=UN_88FimkWzCRdlYNA1g17SWnRdadQHPgeNP8rT9f3E="
         ];
 
-        // 1. Level Selection: Sets up board and shows UN-shuffled picture
         function selectLevel(difficulty) {
             clearInterval(timerId);
             isPlaying = false;
@@ -392,9 +453,8 @@
             initBoard(currentCols, currentRows, randomImg);
         }
 
-        // 2. Starts Game: Shuffles current picture and starts 30sec timer
         function startGame() {
-            if (isPlaying) return; // Prevent double clicking start
+            if (isPlaying) return; 
             
             shuffleTiles();
             isPlaying = true;
@@ -420,7 +480,6 @@
             gameBoard.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
             
             const total = cols * rows;
-            // Calculations for a 640x480 rectangular board
             const w = 640 / cols;
             const h = 480 / rows;
 
@@ -435,10 +494,8 @@
                 tile.style.backgroundPosition = `-${x}px -${y}px`;
                 tile.dataset.correctPos = tile.style.backgroundPosition;
                 
-                // Click events (Fallback)
                 tile.addEventListener('click', () => handleTileClick(tile));
                 
-                // Drag and Drop Events
                 tile.setAttribute('draggable', 'true');
                 tile.addEventListener('dragstart', handleDragStart);
                 tile.addEventListener('dragover', handleDragOver);
@@ -458,7 +515,6 @@
             }
         }
 
-        // --- Drag and Drop Logic ---
         function handleDragStart(e) {
             if (!isPlaying) {
                 e.preventDefault();
@@ -473,7 +529,7 @@
 
         function handleDragOver(e) {
             if (!isPlaying) return;
-            e.preventDefault(); // Necessary to allow dropping
+            e.preventDefault(); 
             return false;
         }
 
@@ -492,7 +548,6 @@
             tiles.forEach(t => t.classList.remove('selected'));
         }
 
-        // --- Click Logic (Works alongside Drag & Drop) ---
         function handleTileClick(tile) {
             if (!isPlaying) {
                 alert("Please click 'Start Game' to shuffle and begin!");
@@ -533,11 +588,9 @@
 
         function closePopups() {
             document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
-            // Show new picture ready for next game
             selectLevel(currentCols === 4 && currentRows === 4 ? 'hard' : currentCols === 3 && currentRows === 4 ? 'medium' : 'easy');
         }
 
-        // Initialize with default 3x3 unshuffled image before game starts
         window.onload = () => selectLevel('easy');
     </script>
 </body>
