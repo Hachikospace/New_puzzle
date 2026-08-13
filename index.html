@@ -1,4 +1,8 @@
+Here is the updated code. To perfectly match the video player's design, I wrapped the puzzle grid in a new container (`.puzzle-container`). 
 
+Now, the puzzle board has the exact same **background**, **padding**, **thinner 2px border**, and **curved edges** as the YouTube video. I also added `overflow: hidden;` to the game board so the square puzzle pieces will perfectly clip into the curved corners without spilling over!
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,15 +192,25 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* --- ENLARGED, RECTANGULAR GAME BOARD (640x480) --- */
+        /* --- PUZZLE CONTAINER (Matches Video Container) --- */
+        .puzzle-container {
+            background-color: rgba(0, 0, 0, 0.7); 
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #ff007f;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: inline-block;
+        }
+
         #game-board {
             width: 640px;
             height: 480px;
             display: grid;
-            border: 4px solid #ff007f;
-            background-color: rgba(0, 0, 0, 0.7); 
-            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4);
+            background-color: #000;
             position: relative;
+            border-radius: 8px; /* Inner curve matching the iframe */
+            overflow: hidden; /* Clips the puzzle pieces perfectly to the rounded corners! */
         }
 
         .tile {
@@ -299,7 +313,6 @@
             </div>
 
             <div class="video-container">
-                <!-- Removed playlist/loop to prevent Error 153 and added HD parameter -->
                 <iframe 
                     src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1&vq=hd1080" 
                     allow="autoplay; encrypted-media; picture-in-picture" 
@@ -318,14 +331,15 @@
                 <button class="btn-hard" onclick="selectLevel('hard')">Hard (4x4)</button>
             </div>
 
-            <!-- New Start Button -->
             <button class="start-btn" onclick="startGame()">Start Game</button>
 
             <div class="timer-board">Time Left: <span id="time">30</span>s</div>
 
-            <div id="game-board"></div>
+            <!-- Puzzle Container matches Video Container -->
+            <div class="puzzle-container">
+                <div id="game-board"></div>
+            </div>
 
-            <!-- Popups are now physically inside right-panel to prevent overlapping video -->
             <div id="popup-gameover" class="popup">
                 <div class="popup-content">
                     <h2>Time's Up! 😭</h2>
