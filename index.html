@@ -54,7 +54,7 @@
             text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
         }
 
-        /* --- RESTORED UPSCOLLING --- */
+        /* --- UPSCOLLING CONTENT --- */
         .scroll-wrapper {
             flex-grow: 1;
             overflow: hidden; 
@@ -92,10 +92,10 @@
         /* --- VIDEO SECTION --- */
         .video-container {
             width: 100%;
-            max-width: 800px; /* Constrains max width so it doesn't get too tall */
+            max-width: 800px;
             margin: 0 auto;
             margin-top: auto; 
-            background-color: rgba(0, 0, 0, 0.7); /* Dark background matching puzzle */
+            background-color: rgba(0, 0, 0, 0.7); 
             padding: 12px;
             border-radius: 12px;
             border: 2px solid #ff007f;
@@ -122,6 +122,9 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
             border-left: 2px solid rgba(255,255,255,0.1);
+            
+            /* Crucial: Keeps popups confined to this panel only */
+            position: relative; 
         }
 
         .game-heading {
@@ -132,12 +135,8 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
-        .controls {
-            margin-bottom: 20px;
-        }
-
         .difficulty-btns button {
-            padding: 10px 20px;
+            padding: 8px 15px;
             font-size: 15px;
             margin: 5px;
             cursor: pointer;
@@ -154,20 +153,38 @@
         .btn-hard { background-color: #ef4444; }
         .btn-easy:hover, .btn-medium:hover, .btn-hard:hover { opacity: 0.9; transform: scale(1.05); }
 
+        .start-btn {
+            background-color: #ff007f;
+            color: #fff;
+            padding: 12px 35px;
+            font-size: 18px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.6);
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .start-btn:hover { background-color: #e60073; transform: scale(1.05); }
+        .start-btn:active { transform: scale(0.95); }
+
         .timer-board {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             color: #00d2ff;
             margin-bottom: 15px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* --- RESIZED GAME BOARD (480x480 for math precision) --- */
+        /* --- ENLARGED, RECTANGULAR GAME BOARD (640x480) --- */
         #game-board {
-            width: 480px;
+            width: 640px;
             height: 480px;
             display: grid;
-            border: 5px solid #ff007f;
+            border: 4px solid #ff007f;
             background-color: rgba(0, 0, 0, 0.7); 
             box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4);
             position: relative;
@@ -176,27 +193,28 @@
         .tile {
             width: 100%;
             height: 100%;
-            background-size: 480px 480px; 
+            background-size: 640px 480px; 
             cursor: grab;
             box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Extra thin border */
+            border: 1px solid rgba(255, 255, 255, 0.08); 
             transition: opacity 0.2s;
         }
 
         .tile:hover { opacity: 0.9; }
 
         .tile.selected {
-            outline: 4px solid #00d2ff;
+            outline: 3px solid #00d2ff;
             z-index: 10;
             opacity: 0.6;
         }
 
-        /* Popups */
+        /* Popups Confined to Right Panel */
         .popup {
             display: none;
-            position: fixed;
+            position: absolute; /* Changed from fixed */
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.85); /* Slightly transparent so puzzle is barely visible */
             z-index: 999;
             justify-content: center;
             align-items: center;
@@ -221,7 +239,7 @@
 
     <div class="page-wrapper">
         
-        <!-- Left Panel: Now 60% Width -->
+        <!-- Left Panel: 60% Width -->
         <div class="left-panel">
             <h2 class="busan-title">Explore Busan</h2>
             
@@ -262,36 +280,39 @@
             </div>
         </div>
 
-        <!-- Right Panel: Now 40% Width -->
+        <!-- Right Panel: 40% Width -->
         <div class="right-panel">
-            <h1 class="game-heading">Busan City Puzzle</h1>
+            <h1 class="game-heading">Play puzzle and win chocolate 🍫</h1>
             
             <div class="difficulty-btns">
-                <button class="btn-easy" onclick="startGame('easy')">Easy (3x3)</button>
-                <button class="btn-medium" onclick="startGame('medium')">Medium (3x4)</button>
-                <button class="btn-hard" onclick="startGame('hard')">Hard (4x4)</button>
+                <button class="btn-easy" onclick="selectLevel('easy')">Easy (3x3)</button>
+                <button class="btn-medium" onclick="selectLevel('medium')">Medium (3x4)</button>
+                <button class="btn-hard" onclick="selectLevel('hard')">Hard (4x4)</button>
             </div>
 
-            <div class="timer-board">Time Left: <span id="time">--</span>s</div>
+            <!-- New Start Button -->
+            <button class="start-btn" onclick="startGame()">Start Game</button>
+
+            <div class="timer-board">Time Left: <span id="time">30</span>s</div>
 
             <div id="game-board"></div>
-        </div>
-    </div>
 
-    <!-- Popups -->
-    <div id="popup-gameover" class="popup">
-        <div class="popup-content">
-            <h2>Time's Up! 😭</h2>
-            <p>Try a different difficulty?</p>
-            <button onclick="closePopups()">Close</button>
-        </div>
-    </div>
+            <!-- Popups are now physically inside right-panel to prevent overlapping video -->
+            <div id="popup-gameover" class="popup">
+                <div class="popup-content">
+                    <h2>Time's Up! 😭</h2>
+                    <p>You ran out of time.</p>
+                    <button onclick="closePopups()">Try Again</button>
+                </div>
+            </div>
 
-    <div id="popup-win" class="popup">
-        <div class="popup-content">
-            <h2 style="color: #22c55e;">🎉 Excellence! 🎉</h2>
-            <p>You completed the puzzle!</p>
-            <button onclick="closePopups()">Awesome</button>
+            <div id="popup-win" class="popup">
+                <div class="popup-content">
+                    <h2 style="color: #22c55e;">🎉 WOW YOU WON! 🎉</h2>
+                    <p>Collect your chocolate!</p>
+                    <button onclick="closePopups()">Play Again</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -300,9 +321,13 @@
         const timeDisplay = document.getElementById('time');
         
         let timerId;
-        let timeLeft = 30;
+        let timeLeft = 30; // Strictly 30 seconds for all levels
         let isPlaying = false;
         let firstTile = null;
+
+        // Current grid state
+        let currentCols = 3;
+        let currentRows = 3;
 
         const images = [
             "https://media.istockphoto.com/id/859747978/photo/gamcheon-culture-village-busan-south-korea.jpg?s=612x612&w=0&k=20&c=bIb40JVuf8nFtWN3Z5RybLc4ioMjyMsJEDy662Z1LLM=",
@@ -312,22 +337,33 @@
             "https://media.istockphoto.com/id/959595614/photo/aerial-view-of-deep-water-port-with-cargo-ship-and-container.jpg?s=612x612&w=0&k=20&c=UN_88FimkWzCRdlYNA1g17SWnRdadQHPgeNP8rT9f3E="
         ];
 
-        function startGame(difficulty) {
+        // 1. Level Selection: Sets up board and shows UN-shuffled picture
+        function selectLevel(difficulty) {
             clearInterval(timerId);
-            isPlaying = true;
+            isPlaying = false;
             firstTile = null;
+            timeLeft = 30; 
+            timeDisplay.innerText = timeLeft;
 
-            let cols, rows;
-            // Updated Dimensions: Easy(3x3), Medium(3x4), Hard(4x4)
-            if (difficulty === 'easy') { cols = 3; rows = 3; timeLeft = 45; }
-            else if (difficulty === 'medium') { cols = 3; rows = 4; timeLeft = 60; }
-            else { cols = 4; rows = 4; timeLeft = 90; }
+            if (difficulty === 'easy') { currentCols = 3; currentRows = 3; }
+            else if (difficulty === 'medium') { currentCols = 3; currentRows = 4; }
+            else { currentCols = 4; currentRows = 4; }
 
             const randomImg = images[Math.floor(Math.random() * images.length)];
-            initBoard(cols, rows, randomImg);
-            shuffleTiles();
+            initBoard(currentCols, currentRows, randomImg);
+        }
+
+        // 2. Starts Game: Shuffles current picture and starts 30sec timer
+        function startGame() {
+            if (isPlaying) return; // Prevent double clicking start
             
+            shuffleTiles();
+            isPlaying = true;
+            firstTile = null;
+            timeLeft = 30;
             timeDisplay.innerText = timeLeft;
+
+            clearInterval(timerId);
             timerId = setInterval(() => {
                 timeLeft--;
                 timeDisplay.innerText = timeLeft;
@@ -345,8 +381,8 @@
             gameBoard.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
             
             const total = cols * rows;
-            // Based on 480x480 board size
-            const w = 480 / cols;
+            // Calculations for a 640x480 rectangular board
+            const w = 640 / cols;
             const h = 480 / rows;
 
             for (let i = 0; i < total; i++) {
@@ -375,7 +411,11 @@
         }
 
         function handleTileClick(tile) {
-            if (!isPlaying) return;
+            if (!isPlaying) {
+                alert("Please click 'Start Game' to shuffle and begin!");
+                return;
+            }
+
             if (!firstTile) {
                 firstTile = tile;
                 tile.classList.add('selected');
@@ -405,11 +445,12 @@
 
         function closePopups() {
             document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
+            // Show new picture ready for next game
+            selectLevel(currentCols === 4 && currentRows === 4 ? 'hard' : currentCols === 3 && currentRows === 4 ? 'medium' : 'easy');
         }
 
-        // Initialize with default 3x3 before game starts
-        window.onload = () => initBoard(3, 3, images[0]);
+        // Initialize with default 3x3 unshuffled image before game starts
+        window.onload = () => selectLevel('easy');
     </script>
 </body>
 </html>
-```
