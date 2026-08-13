@@ -1,0 +1,580 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busan City Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1a1a2e;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; 
+            min-height: 100vh;
+        }
+
+        /* --- NEW LAYOUT: 40% Left / 60% Right --- */
+        .page-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100vw;
+            height: 100vh;
+            box-sizing: border-box;
+            padding: 20px 40px;
+        }
+
+        /* --- 40% LEFT PANEL (ABOUT BUSAN) --- */
+        .left-panel {
+            width: 40%;
+            height: 100%;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            padding-right: 30px;
+            box-sizing: border-box;
+        }
+
+        .busan-title {
+            font-size: 42px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff00de, #00f2fe, #ffeb3b, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hueShift 4s infinite alternate;
+        }
+
+        @keyframes hueShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(45deg); }
+        }
+
+        /* Upward Scrolling Area with Fade Mask */
+        .scroll-wrapper {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+        }
+
+        .scroll-inner {
+            /* Continuous infinite scroll */
+            animation: autoScroll 45s linear infinite;
+            padding-bottom: 50px;
+            color: #ddd;
+            font-size: 16px;
+            line-height: 1.8;
+            padding-right: 15px;
+        }
+
+        @keyframes autoScroll {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+
+        .scroll-inner h3 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 22px;
+            border-bottom: 2px dashed rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+        .color-1 { color: #ffeb3b; }
+        .color-2 { color: #ff00de; }
+        .color-3 { color: #00f2fe; }
+        .color-4 { color: #4ade80; }
+        .color-5 { color: #f472b6; }
+
+        .scroll-inner p { margin-top: 0; }
+        .scroll-inner ul { padding-left: 20px; margin-top: 5px; }
+        .scroll-inner li { margin-bottom: 12px; }
+        .scroll-inner strong { color: #fff; }
+
+        /* --- VIDEO CONTAINER (LEFT BOTTOM) --- */
+        .video-container {
+            margin-top: 15px;
+            background: #16213e;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #4facfe;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .video-title {
+            font-size: 18px;
+            color: #ffeb3b;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 200px; 
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* --- 60% MAIN GAME AREA --- */
+        .right-panel {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chocolate-heading {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 38px;
+            color: #ffeb3b;
+            animation: bounceGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        .controls {
+            margin: 10px 0;
+            padding: 15px;
+            background: #16213e;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        button.start-btn { background-color: #0f3460; color: white; transition: 0.2s; }
+        button.start-btn:hover { background-color: #4facfe; }
+        button.reset-btn { background-color: #e94560; color: white; transition: 0.2s; }
+        button.reset-btn:hover { background-color: #ff6b81; }
+        
+        .timer-board {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e94560;
+            margin: 15px 0;
+        }
+
+        #game-board {
+            width: 800px;
+            height: 400px;
+            display: grid;
+            border: 4px solid #4facfe;
+            background-color: #000;
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.4);
+            position: relative;
+        }
+
+        .tile {
+            width: 100%;
+            height: 100%;
+            background-image: url("https://t4.ftcdn.net/jpg/05/91/22/23/360_F_591222374_VM1cEzKeLS9eCCqYx1adUfgOfYxOtodD.jpg");
+            background-size: 800px 400px;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: grab;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: opacity 0.2s;
+        }
+
+        .tile:active { cursor: grabbing; }
+        .tile:hover { opacity: 0.8; }
+        .tile.selected {
+            border: 3px solid #ffeb3b;
+            opacity: 0.6;
+            z-index: 10;
+        }
+
+        /* Popups */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background: #16213e;
+            color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.9);
+            border: 3px solid #4facfe;
+            min-width: 300px;
+        }
+        
+        .popup.game-over h2 { color: #e94560; font-size: 32px; margin-top: 0; }
+        .popup-content button {
+            margin-top: 20px;
+            background: #4facfe;
+            color: #fff;
+            font-size: 18px;
+            padding: 12px 25px;
+        }
+
+        /* Animations */
+        .korean-anim-text {
+            font-size: 45px;
+            font-weight: 900;
+            margin: 10px 0;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: bounceGlow 1s ease-in-out infinite alternate;
+        }
+
+        .korean-subtext {
+            font-size: 24px;
+            color: #ffeb3b;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .cute-face {
+            font-size: 30px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        @keyframes bounceGlow {
+            0% { 
+                transform: translateY(0) scale(1); 
+                text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 30px #ff00de; 
+            }
+            100% { 
+                transform: translateY(-10px) scale(1.05); 
+                text-shadow: 0 0 20px #00f2fe, 0 0 30px #4facfe, 0 0 40px #4facfe; 
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .confetti {
+            position: fixed;
+            top: -50px;
+            z-index: 1000;
+            animation: fall linear forwards;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(720deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        
+        <div class="left-panel">
+            <h2 class="busan-title">About Busan City</h2>
+            
+            <div class="scroll-wrapper">
+                <div class="scroll-inner">
+                    <p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
+                    
+                    <h3 class="color-3">📊 Key Facts</h3>
+                    <ul>
+                        <li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
+                        <li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
+                        <li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
+                    </ul>
+
+                    <h3 class="color-2">🎭 Tradition & Culture</h3>
+                    <ul>
+                        <li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
+                        <li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
+                        <li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
+                    </ul>
+
+                    <h3 class="color-1">👥 People & Lifestyle</h3>
+                    <ul>
+                        <li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
+                        <li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
+                        <li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
+                    </ul>
+
+                    <h3 class="color-4">🍜 Iconic Local Food</h3>
+                    <ul>
+                        <li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
+                        <li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
+                        <li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
+                    </ul>
+
+                    <h3 class="color-5">📸 Famous Landmarks</h3>
+                    <ul>
+                        <li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
+                        <li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
+                        <li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
+                        <li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
+                    </ul>
+
+                    <h3 class="color-1">😲 Fun Fact</h3>
+                    <p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
+                </div>
+            </div>
+
+            <!-- YouTube Video Section (Fixed Error 153) -->
+            <div class="video-container">
+                <h3 class="video-title">Best places to visit in Busan</h3>
+                <!-- Removed problematic loop and playlist variables causing YouTube Configuration Error 153 -->
+                <iframe 
+                    id="busan-video"
+                    src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&playsinline=1" 
+                    allow="autoplay; encrypted-media; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+            <h1 class="chocolate-heading">Play puzzle and win chocolate 🍫</h1>
+            
+            <div class="controls">
+                <button class="start-btn" onclick="startGame()">Start Game</button>
+                <button class="reset-btn" onclick="resetGame()">Reset Board</button>
+            </div>
+
+            <div class="timer-board">Time Left: <span id="time">30</span>s</div>
+
+            <div id="game-board"></div>
+        </div>
+    </div>
+
+    <!-- Game Over Popup -->
+    <div id="popup-gameover" class="popup game-over">
+        <div class="popup-content">
+            <h2>Time's Up! 😭</h2>
+            <p>You ran out of time.</p>
+            <button onclick="closePopups(); resetGame();">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Win Popup -->
+    <div id="popup-win" class="popup win">
+        <div class="popup-content">
+            <div class="korean-anim-text">✨ WOW YOU WON! ✨</div>
+            <div class="korean-subtext">대박! 축하해요! <br> <span class="cute-face">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</span></div>
+            <button onclick="closePopups(); resetGame();">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const gameBoard = document.getElementById('game-board');
+        const timeDisplay = document.getElementById('time');
+        
+        let timerId;
+        let timeLeft = 30; 
+        let isPlaying = false;
+        let firstSelectedTile = null;
+        let dragSrcEl = null;
+
+        const cols = 4;
+        const rows = 4;
+
+        function initBoard() {
+            gameBoard.innerHTML = '';
+            
+            gameBoard.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            gameBoard.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            
+            const tileWidth = 800 / cols;
+            const tileHeight = 400 / rows;
+            const totalTiles = cols * rows;
+
+            for (let i = 0; i < totalTiles; i++) {
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                
+                let x = (i % cols) * tileWidth;
+                let y = Math.floor(i / cols) * tileHeight;
+                
+                tile.style.backgroundPosition = `-${x}px -${y}px`;
+                tile.dataset.correctIndex = i; 
+                tile.dataset.currentIndex = i; 
+                
+                tile.addEventListener('click', onTileClick);
+                tile.setAttribute('draggable', 'true');
+                tile.addEventListener('dragstart', handleDragStart);
+                tile.addEventListener('dragover', handleDragOver);
+                tile.addEventListener('drop', handleDrop);
+                tile.addEventListener('dragend', handleDragEnd);
+
+                gameBoard.appendChild(tile);
+            }
+        }
+
+        function shuffleTiles() {
+            let tiles = Array.from(document.querySelectorAll('.tile'));
+            for (let i = tiles.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                swapTiles(tiles[i], tiles[j]);
+            }
+        }
+
+        function swapTiles(tile1, tile2) {
+            let tempBg = tile1.style.backgroundPosition;
+            tile1.style.backgroundPosition = tile2.style.backgroundPosition;
+            tile2.style.backgroundPosition = tempBg;
+
+            let tempIndex = tile1.dataset.currentIndex;
+            tile1.dataset.currentIndex = tile2.dataset.currentIndex;
+            tile2.dataset.currentIndex = tempIndex;
+        }
+
+        function handleDragStart(e) {
+            if (!isPlaying) {
+                e.preventDefault();
+                alert("Please click 'Start Game' first to shuffle the pieces!");
+                return;
+            }
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', '');
+            this.classList.add('selected');
+        }
+
+        function handleDragOver(e) {
+            if (!isPlaying) return;
+            e.preventDefault(); 
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (!isPlaying) return;
+            e.stopPropagation();
+            if (dragSrcEl !== this) {
+                swapTiles(dragSrcEl, this);
+                setTimeout(checkWinCondition, 100);
+            }
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            let tiles = document.querySelectorAll('.tile');
+            tiles.forEach(t => t.classList.remove('selected'));
+        }
+
+        function onTileClick(e) {
+            if (!isPlaying) {
+                alert("Please click 'Start Game' first to shuffle the pieces!");
+                return;
+            }
+
+            let clickedTile = e.target;
+
+            if (!firstSelectedTile) {
+                firstSelectedTile = clickedTile;
+                firstSelectedTile.classList.add('selected');
+            } else {
+                if (firstSelectedTile === clickedTile) {
+                    firstSelectedTile.classList.remove('selected');
+                    firstSelectedTile = null;
+                    return;
+                }
+                swapTiles(firstSelectedTile, clickedTile);
+                firstSelectedTile.classList.remove('selected');
+                firstSelectedTile = null;
+                setTimeout(checkWinCondition, 100); 
+            }
+        }
+
+        function checkWinCondition() {
+            let tiles = Array.from(document.querySelectorAll('.tile'));
+            let isWin = tiles.every(tile => tile.dataset.correctIndex === tile.dataset.currentIndex);
+            
+            if (isWin) {
+                clearInterval(timerId);
+                isPlaying = false;
+                document.getElementById('popup-win').style.display = 'flex';
+                triggerChocolateConfetti(); 
+            }
+        }
+
+        function triggerChocolateConfetti() {
+            const emojis = ['🍫', '🍫', '🍬', '🎉', '✨']; 
+            for (let i = 0; i < 60; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.fontSize = (Math.random() * 25 + 15) + 'px'; 
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'; 
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        function startGame() {
+            if (isPlaying) return; 
+            
+            initBoard();
+            shuffleTiles();
+            
+            isPlaying = true;
+            firstSelectedTile = null;
+            
+            timeLeft = 25; 
+            timeDisplay.innerText = timeLeft;
+            
+            clearInterval(timerId);
+            timerId = setInterval(() => {
+                timeLeft--;
+                timeDisplay.innerText = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    isPlaying = false;
+                    document.getElementById('popup-gameover').style.display = 'flex';
+                }
+            }, 1000);
+        }
+
+        function resetGame() {
+            clearInterval(timerId);
+            isPlaying = false;
+            timeLeft = 25; 
+            timeDisplay.innerText = timeLeft;
+            firstSelectedTile = null;
+            initBoard(); 
+        }
+
+        function closePopups() {
+            document.getElementById('popup-gameover').style.display = 'none';
+            document.getElementById('popup-win').style.display = 'none';
+        }
+
+        window.onload = initBoard;
+
+    </script>
+</body>
+</html>
+```
