@@ -1,3 +1,10 @@
+Here is your updated code! I have made the design much cleaner and more unified based on your instructions:
+
+1. **One Unified Background:** I removed the individual black backgrounds from the content, video, and puzzle sections. Instead, I wrapped the entire application inside one large, beautiful floating "glass" dashboard (`.page-wrapper`).
+2. **Removed Content Border:** The "About Busan" text section now flows seamlessly without any boxes or borders around it.
+3. **Thin Curved Borders:** I added a sleek, thin (`1px`), curved (`border-radius: 12px`) pink border specifically to the YouTube video frame and the Puzzle board, making them perfectly match and stand out beautifully.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,8 +22,13 @@
             color: #fff;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            min-height: 100vh;
+            
+            /* Center the main dashboard */
+            height: 100vh;
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Gradient Animation */
@@ -26,11 +38,19 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* --- ONE UNIFIED BACKGROUND FOR EVERYTHING --- */
         .page-wrapper {
             display: flex;
-            width: 100vw;
-            height: 100vh;
+            width: 96vw;
+            height: 94vh;
             box-sizing: border-box;
+            
+            /* The shared glass background */
+            background-color: rgba(0, 0, 0, 0.65); 
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle outer edge */
         }
 
         /* --- LEFT PANEL --- */
@@ -43,22 +63,11 @@
             box-sizing: border-box;
         }
 
-        /* --- SHARED STYLES FOR CONTENT, VIDEO, AND PUZZLE BOXES --- */
-        .content-container, .video-container, .puzzle-container {
-            background-color: rgba(0, 0, 0, 0.7); 
-            border-radius: 12px;
-            /* Border removed completely as requested */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            box-sizing: border-box;
-        }
-
-        /* --- CONTENT BOX (Top Left) --- */
+        /* --- CONTENT BOX (Top Left - No background/borders) --- */
         .content-container {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            padding: 25px;
             margin-bottom: 20px;
             overflow: hidden;
         }
@@ -85,7 +94,6 @@
         .scroll-inner {
             display: flex;
             flex-direction: column;
-            /* Slower, reduced speed for comfortable reading */
             animation: autoScroll 90s linear infinite;
         }
 
@@ -94,11 +102,9 @@
             line-height: 1.6;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
             padding-right: 15px;
-            /* Large gap at the bottom before the duplicated text starts */
             padding-bottom: 50px; 
         }
 
-        /* Translates exactly half of the container height (1 text block) to create a flawless loop */
         @keyframes autoScroll {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
@@ -125,16 +131,17 @@
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
-            margin-top: auto; /* Forces video to absolute bottom of left panel */
-            padding: 12px;
+            margin-top: auto; 
         }
 
         .video-container iframe {
             width: 100%;
             display: block; 
             aspect-ratio: 16 / 9;
-            border-radius: 8px;
-            border: none;
+            /* Thin, curved border for Video */
+            border: 1px solid #ff007f; 
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         /* --- RIGHT PANEL --- */
@@ -143,7 +150,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Padding identical to left-panel for perfectly leveled bottoms */
             padding: 30px; 
             position: relative; 
         }
@@ -153,7 +159,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-grow: 1; /* Centers controls dynamically in the space above puzzle */
+            flex-grow: 1; 
         }
 
         .game-heading {
@@ -210,9 +216,8 @@
 
         /* --- PUZZLE CONTAINER --- */
         .puzzle-container {
-            padding: 12px;
             display: inline-block;
-            margin-top: auto; /* Forces puzzle to absolute bottom, flawlessly leveling with video */
+            margin-top: auto; 
         }
 
         #game-board {
@@ -221,8 +226,11 @@
             display: grid;
             background-color: #000;
             position: relative;
-            border-radius: 8px; 
+            /* Thin, curved border for Puzzle perfectly matching video */
+            border: 1px solid #ff007f; 
+            border-radius: 12px; 
             overflow: hidden; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .tile {
@@ -250,6 +258,7 @@
             position: absolute; 
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); 
+            border-radius: 20px;
             z-index: 999;
             justify-content: center;
             align-items: center;
@@ -272,6 +281,7 @@
 </head>
 <body>
 
+    <!-- Unified Dashboard Background Frame -->
     <div class="page-wrapper">
         
         <!-- Left Panel: 60% Width -->
@@ -402,7 +412,6 @@
                 <div class="timer-board">Time Left: <span id="time">30</span>s</div>
             </div>
 
-            <!-- PUZZLE CONTAINER matches Video level position perfectly -->
             <div class="puzzle-container">
                 <div id="game-board"></div>
             </div>
@@ -605,4 +614,4 @@
     </script>
 </body>
 </html>
-
+```
