@@ -8,13 +8,22 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            /* Changed to completely black as requested */
-            background-color: #000000; 
+            /* Highly attractive, "odd" dynamic color gradient */
+            background: linear-gradient(45deg, #ff007f, #2b0854, #00d2ff, #7a00ff);
+            background-size: 400% 400%;
+            animation: oddGradient 15s ease infinite;
             color: #fff;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             min-height: 100vh;
+        }
+
+        /* Gradient Animation */
+        @keyframes oddGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .page-wrapper {
@@ -24,43 +33,45 @@
             box-sizing: border-box;
         }
 
-        /* --- LEFT PANEL (40%) --- */
+        /* --- LEFT PANEL (60% for Content & Video) --- */
         .left-panel {
-            width: 40%;
+            width: 60%;
             height: 100%;
             display: flex;
             flex-direction: column;
             padding: 30px;
             box-sizing: border-box;
-            /* Removed the middle border line */
+            background: rgba(0, 0, 0, 0.4); /* Glassmorphism effect */
+            backdrop-filter: blur(5px);
         }
 
         .busan-title {
-            font-size: 36px;
+            font-size: 38px;
             margin: 0 0 15px 0;
             font-weight: 800;
-            color: #38bdf8;
+            color: #00d2ff;
             text-align: left;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
         }
 
         /* --- RESTORED UPSCOLLING --- */
         .scroll-wrapper {
             flex-grow: 1;
-            overflow: hidden; /* Hide the overflow for scrolling */
+            overflow: hidden; 
             position: relative;
             margin-bottom: 20px;
-            padding-right: 10px;
+            padding-right: 15px;
             text-align: left;
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
         }
 
         .scroll-inner {
-            /* Infinite upscrolling animation */
             animation: autoScroll 25s linear infinite;
             padding-bottom: 20px;
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
         @keyframes autoScroll {
@@ -71,41 +82,46 @@
         .scroll-inner h3 {
             margin-top: 25px;
             margin-bottom: 10px;
-            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            border-bottom: 1px dashed rgba(255,255,255,0.4);
             padding-bottom: 5px;
         }
-        .color-1 { color: #00f2fe; }
+        .color-1 { color: #00d2ff; }
         .color-2 { color: #4ade80; }
         .color-3 { color: #ffeb3b; }
 
         /* --- VIDEO SECTION --- */
         .video-container {
             width: 100%;
-            background-color: #000000; /* Black background to match puzzle */
-            padding: 10px;
-            border-radius: 12px;
-            border: 2px solid #38bdf8;
-            box-sizing: border-box; /* Ensures the border does not get cropped */
+            max-width: 800px; /* Constrains max width so it doesn't get too tall */
+            margin: 0 auto;
             margin-top: auto; 
+            background-color: rgba(0, 0, 0, 0.7); /* Dark background matching puzzle */
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #ff007f;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .video-container iframe {
             width: 100%;
-            display: block; /* Fixes bottom gap cropping */
+            display: block; 
             aspect-ratio: 16 / 9;
             border-radius: 8px;
             border: none;
         }
 
-        /* --- RIGHT PANEL (60%) --- */
+        /* --- RIGHT PANEL (40% for Puzzle) --- */
         .right-panel {
-            width: 60%;
+            width: 40%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background-color: #000000; /* Black background */
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            border-left: 2px solid rgba(255,255,255,0.1);
         }
 
         .game-heading {
@@ -113,6 +129,7 @@
             color: #f1f5f9;
             margin-bottom: 20px;
             font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         .controls {
@@ -120,8 +137,8 @@
         }
 
         .difficulty-btns button {
-            padding: 10px 25px;
-            font-size: 16px;
+            padding: 10px 20px;
+            font-size: 15px;
             margin: 5px;
             cursor: pointer;
             border: none;
@@ -129,44 +146,49 @@
             font-weight: bold;
             transition: 0.3s;
             color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
         .btn-easy { background-color: #22c55e; }
         .btn-medium { background-color: #eab308; }
         .btn-hard { background-color: #ef4444; }
-        .btn-easy:hover, .btn-medium:hover, .btn-hard:hover { opacity: 0.8; transform: scale(1.05); }
+        .btn-easy:hover, .btn-medium:hover, .btn-hard:hover { opacity: 0.9; transform: scale(1.05); }
 
         .timer-board {
             font-size: 28px;
             font-weight: bold;
-            color: #38bdf8;
+            color: #00d2ff;
             margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* --- ENLARGED GAME BOARD --- */
+        /* --- RESIZED GAME BOARD (480x480 for math precision) --- */
         #game-board {
-            width: 800px;
-            height: 500px;
+            width: 480px;
+            height: 480px;
             display: grid;
-            border: 5px solid #334155;
-            background-color: #000000; /* Black background */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 5px solid #ff007f;
+            background-color: rgba(0, 0, 0, 0.7); 
+            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4);
             position: relative;
         }
 
         .tile {
             width: 100%;
             height: 100%;
-            background-size: 800px 500px; 
+            background-size: 480px 480px; 
             cursor: grab;
             box-sizing: border-box;
-            border: 0.5px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: opacity 0.2s;
         }
 
+        .tile:hover { opacity: 0.9; }
+
         .tile.selected {
-            outline: 4px solid #38bdf8;
+            outline: 4px solid #00d2ff;
             z-index: 10;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         /* Popups */
@@ -180,26 +202,29 @@
             align-items: center;
         }
         .popup-content {
-            background: #000000;
+            background: #111;
             padding: 40px;
             border-radius: 15px;
-            border: 2px solid #38bdf8;
+            border: 3px solid #00d2ff;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.5);
         }
         .popup-content h2 { color: #ef4444; }
         .popup-content button {
-            background: #38bdf8; color: #000; font-weight: bold;
-            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
+            background: #ff007f; color: #fff; font-weight: bold;
+            padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer;
+            transition: 0.2s;
         }
+        .popup-content button:hover { background: #e60073; }
     </style>
 </head>
 <body>
 
     <div class="page-wrapper">
         
+        <!-- Left Panel: Now 60% Width -->
         <div class="left-panel">
             <h2 class="busan-title">Explore Busan</h2>
             
-            <!-- Upward Scrolling Area -->
             <div class="scroll-wrapper">
                 <div class="scroll-inner">
                     <p><strong>Busan (부산)</strong> is South Korea's vibrant coastal capital. A magnificent blend of beautiful beaches, majestic mountains, and futuristic skyscrapers.</p>
@@ -228,7 +253,6 @@
                 </div>
             </div>
 
-            <!-- YouTube Video - Visible Border & Looping -->
             <div class="video-container">
                 <iframe 
                     src="https://www.youtube.com/embed/Sg_oX2nYqSY?autoplay=1&mute=1&loop=1&playlist=Sg_oX2nYqSY" 
@@ -238,13 +262,14 @@
             </div>
         </div>
 
+        <!-- Right Panel: Now 40% Width -->
         <div class="right-panel">
-            <h1 class="game-heading">Busan City Landscape Puzzle</h1>
+            <h1 class="game-heading">Busan City Puzzle</h1>
             
             <div class="difficulty-btns">
-                <button class="btn-easy" onclick="startGame('easy')">Easy (4x3)</button>
-                <button class="btn-medium" onclick="startGame('medium')">Medium (4x4)</button>
-                <button class="btn-hard" onclick="startGame('hard')">Hard (5x4)</button>
+                <button class="btn-easy" onclick="startGame('easy')">Easy (3x3)</button>
+                <button class="btn-medium" onclick="startGame('medium')">Medium (3x4)</button>
+                <button class="btn-hard" onclick="startGame('hard')">Hard (4x4)</button>
             </div>
 
             <div class="timer-board">Time Left: <span id="time">--</span>s</div>
@@ -279,7 +304,6 @@
         let isPlaying = false;
         let firstTile = null;
 
-        // Image List (Changes randomly every time you click Easy/Medium/Hard)
         const images = [
             "https://media.istockphoto.com/id/859747978/photo/gamcheon-culture-village-busan-south-korea.jpg?s=612x612&w=0&k=20&c=bIb40JVuf8nFtWN3Z5RybLc4ioMjyMsJEDy662Z1LLM=",
             "https://media.istockphoto.com/id/1168177363/photo/the-temple-in-busan-south-korea.jpg?s=612x612&w=0&k=20&c=yRaOcwzzAjg-LtKlJVO-Kj_l-RMtqdJi3J-y3Id7Z9I=",
@@ -294,11 +318,11 @@
             firstTile = null;
 
             let cols, rows;
-            if (difficulty === 'easy') { cols = 4; rows = 3; timeLeft = 45; }
-            else if (difficulty === 'medium') { cols = 4; rows = 4; timeLeft = 60; }
-            else { cols = 5; rows = 4; timeLeft = 90; }
+            // Updated Dimensions: Easy(3x3), Medium(3x4), Hard(4x4)
+            if (difficulty === 'easy') { cols = 3; rows = 3; timeLeft = 45; }
+            else if (difficulty === 'medium') { cols = 3; rows = 4; timeLeft = 60; }
+            else { cols = 4; rows = 4; timeLeft = 90; }
 
-            // Pick a random image each game
             const randomImg = images[Math.floor(Math.random() * images.length)];
             initBoard(cols, rows, randomImg);
             shuffleTiles();
@@ -321,8 +345,9 @@
             gameBoard.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
             
             const total = cols * rows;
-            const w = 800 / cols;
-            const h = 500 / rows;
+            // Based on 480x480 board size
+            const w = 480 / cols;
+            const h = 480 / rows;
 
             for (let i = 0; i < total; i++) {
                 let tile = document.createElement('div');
@@ -382,8 +407,9 @@
             document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
         }
 
-        // Initialize with a static board view before a difficulty is selected
-        window.onload = () => initBoard(4, 4, images[0]);
+        // Initialize with default 3x3 before game starts
+        window.onload = () => initBoard(3, 3, images[0]);
     </script>
 </body>
 </html>
+```
