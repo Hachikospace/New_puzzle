@@ -413,6 +413,7 @@
         const gameBoard = document.getElementById('game-board');
         const timeDisplay = document.getElementById('time');
         let timerId;
+        let levelTime = 30; // Keeps track of how much time the selected level allows
         let timeLeft = 30; 
         let isPlaying = false;
         let firstTile = null; 
@@ -444,12 +445,26 @@
             clearInterval(timerId);
             isPlaying = false;
             firstTile = null;
-            timeLeft = 30; 
+
+            // Updated time limits corresponding to the grid size
+            if (difficulty === 'easy') { 
+                currentCols = 3; 
+                currentRows = 3; 
+                levelTime = 30; 
+            }
+            else if (difficulty === 'medium') { 
+                currentCols = 3; 
+                currentRows = 4; 
+                levelTime = 45; 
+            }
+            else { 
+                currentCols = 4; 
+                currentRows = 4; 
+                levelTime = 60; 
+            }
+            
+            timeLeft = levelTime; 
             timeDisplay.innerText = timeLeft;
- 
-            if (difficulty === 'easy') { currentCols = 3; currentRows = 3; }
-            else if (difficulty === 'medium') { currentCols = 3; currentRows = 4; }
-            else { currentCols = 4; currentRows = 4; }
  
             const randomImg = images[Math.floor(Math.random() * images.length)];
             initBoard(currentCols, currentRows, randomImg);
@@ -460,7 +475,9 @@
             shuffleTiles();
             isPlaying = true;
             firstTile = null;
-            timeLeft = 30;
+
+            // Resetting timeLeft to current level's specific time
+            timeLeft = levelTime;
             timeDisplay.innerText = timeLeft;
  
             clearInterval(timerId);
