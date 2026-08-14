@@ -1,475 +1,501 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Busan City Adventure Puzzle</title>
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Busan City Puzzle</title>
+<style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             text-align: center;
-            /* Highly attractive, "odd" dynamic color gradient */
-            background: linear-gradient(45deg, #ff007f, #2b0854, #00d2ff, #7a00ff);
-            background-size: 400% 400%;
-            animation: oddGradient 15s ease infinite;
+            background-color: #1a1a2e;
             color: #fff;
             margin: 0;
             padding: 0;
-            
-            /* Perfectly fit for web user (Edge-to-Edge) */
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden; 
+            overflow-x: hidden; 
+            min-height: 100vh;
         }
-
-        /* Gradient Animation */
-        @keyframes oddGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- FULL SCREEN UNIFIED WRAPPER --- */
+ 
+        /* --- NEW LAYOUT: 40% Left / 60% Right --- */
         .page-wrapper {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             width: 100vw;
             height: 100vh;
             box-sizing: border-box;
-            
-            /* Seamless full-screen glass overlay (No more floating box) */
-            background-color: rgba(0, 0, 0, 0.6); 
-            backdrop-filter: blur(8px);
+            padding: 20px 40px;
         }
-
-        /* --- LEFT PANEL --- */
+ 
+        /* --- 40% LEFT PANEL (ABOUT BUSAN) --- */
         .left-panel {
-            width: 60%;
+            width: 40%;
             height: 100%;
+            text-align: left;
             display: flex;
             flex-direction: column;
-            padding: 30px;
+            padding-right: 30px;
             box-sizing: border-box;
         }
-
-        /* --- CONTENT BOX (Top Left) --- */
-        .content-container {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
+ 
         .busan-title {
-            font-size: 38px;
-            margin: 0 0 15px 0;
-            font-weight: 800;
-            color: #00d2ff;
-            text-align: left;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            font-size: 42px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            /* Colorful Gradient Title */
+            background: linear-gradient(45deg, #ff00de, #00f2fe, #ffeb3b, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hueShift 4s infinite alternate;
         }
-
-        /* --- UPSCOLLING CONTENT --- */
+ 
+        @keyframes hueShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(45deg); }
+        }
+ 
+        /* Upward Scrolling Area with Fade Mask */
         .scroll-wrapper {
             flex-grow: 1;
-            overflow: hidden; 
+            overflow: hidden;
             position: relative;
-            text-align: left;
+            /* Creates a magical fade effect at the top and bottom */
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
         }
-
+ 
         .scroll-inner {
-            display: flex;
-            flex-direction: column;
-            animation: autoScroll 90s linear infinite;
-        }
-
-        .scroll-text {
+            /* Continuous infinite scroll */
+            animation: autoScroll 45s linear infinite;
+            padding-bottom: 50px;
+            color: #ddd;
             font-size: 16px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            line-height: 1.8;
             padding-right: 15px;
-            padding-bottom: 50px; 
         }
-
+ 
         @keyframes autoScroll {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); }
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
         }
-
-        .scroll-text h3 {
-            margin-top: 25px;
+ 
+        /* Colorful Subheaders */
+        .scroll-inner h3 {
+            margin-top: 30px;
             margin-bottom: 10px;
-            border-bottom: 1px dashed rgba(255,255,255,0.4);
+            font-size: 22px;
+            border-bottom: 2px dashed rgba(255,255,255,0.2);
             padding-bottom: 5px;
         }
-        
-        .color-1 { color: #00d2ff; }
-        .color-2 { color: #4ade80; }
-        .color-3 { color: #ffeb3b; }
-        .color-4 { color: #ff007f; }
-        .color-5 { color: #f472b6; }
-        
-        .scroll-text ul { padding-left: 20px; margin-top: 5px; }
-        .scroll-text li { margin-bottom: 8px; }
-
-        /* --- VIDEO SECTION (Bottom Left) --- */
-        .video-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            margin-top: auto; 
-        }
-
-        .video-container video {
-            width: 100%;
-            display: block; 
-            aspect-ratio: 16 / 9;
-            /* Thin, curved border for Video */
-            border: 1px solid #ff007f; 
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            background-color: #000;
-        }
-
-        /* --- RIGHT PANEL --- */
+        .color-1 { color: #ffeb3b; } /* Yellow */
+        .color-2 { color: #ff00de; } /* Pink */
+        .color-3 { color: #00f2fe; } /* Cyan */
+        .color-4 { color: #4ade80; } /* Light Green */
+        .color-5 { color: #f472b6; } /* Pastel */
+ 
+        .scroll-inner p { margin-top: 0; }
+        .scroll-inner ul { padding-left: 20px; margin-top: 5px; }
+        .scroll-inner li { margin-bottom: 12px; }
+        .scroll-inner strong { color: #fff; }
+ 
+ 
+        /* --- 60% MAIN GAME AREA --- */
         .right-panel {
-            width: 40%;
+            width: 60%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px; 
-            position: relative; 
         }
-
-        .controls-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1; 
-        }
-
-        .game-heading {
-            font-size: 32px;
-            color: #f1f5f9;
-            margin-bottom: 20px;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .difficulty-btns button {
-            padding: 8px 15px;
-            font-size: 15px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: 0.3s;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        }
-
-        .btn-easy { background-color: #22c55e; }
-        .btn-medium { background-color: #eab308; }
-        .btn-hard { background-color: #ef4444; }
-        .btn-easy:hover, .btn-medium:hover, .btn-hard:hover { opacity: 0.9; transform: scale(1.05); }
-
-        .start-btn {
-            background-color: #ff007f;
-            color: #fff;
-            padding: 12px 35px;
-            font-size: 18px;
-            margin: 15px 0;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.6);
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .start-btn:hover { background-color: #e60073; transform: scale(1.05); }
-        .start-btn:active { transform: scale(0.95); }
-
-        .timer-board {
-            font-size: 26px;
-            font-weight: bold;
-            color: #00d2ff;
+ 
+        /* Animated Chocolate Heading */
+        .chocolate-heading {
+            margin-top: 0;
             margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            font-size: 38px;
+            color: #ffeb3b;
+            animation: bounceGlow 1.5s ease-in-out infinite alternate;
         }
-
-        /* --- PUZZLE CONTAINER --- */
-        .puzzle-container {
+ 
+        .controls {
+            margin: 10px 0;
+            padding: 15px;
+            background: #16213e;
+            border-radius: 8px;
             display: inline-block;
-            margin-top: auto; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        button.start-btn { background-color: #0f3460; color: white; transition: 0.2s; }
+        button.start-btn:hover { background-color: #4facfe; }
+        button.reset-btn { background-color: #e94560; color: white; transition: 0.2s; }
+        button.reset-btn:hover { background-color: #ff6b81; }
+        .timer-board {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e94560;
+            margin: 15px 0;
+        }
+ 
+        /* Game Board */
         #game-board {
-            width: 640px;
-            height: 480px;
+            width: 800px;
+            height: 400px;
             display: grid;
+            border: 4px solid #4facfe;
             background-color: #000;
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.4);
             position: relative;
-            /* Thin, curved border for Puzzle perfectly matching video */
-            border: 1px solid #ff007f; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
-
+ 
         .tile {
-            width: 100%;
-            height: 100%;
-            background-size: 640px 480px; 
-            cursor: grab;
-            box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            transition: opacity 0.2s;
-        }
-        
+    width: 100%;
+    height: 100%;
+ 
+    background-image: url("https://t4.ftcdn.net/jpg/05/91/22/23/360_F_591222374_VM1cEzKeLS9eCCqYx1adUfgOfYxOtodD.jpg");
+    background-size: 800px 400px;
+    background-repeat: no-repeat;
+    background-position: center;
+ 
+    cursor: grab;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: opacity 0.2s;
+}
+ 
         .tile:active { cursor: grabbing; }
-        .tile:hover { opacity: 0.9; }
-
+        .tile:hover { opacity: 0.8; }
         .tile.selected {
-            outline: 3px solid #00d2ff;
-            z-index: 10;
+            border: 3px solid #ffeb3b;
             opacity: 0.6;
+            z-index: 10;
         }
-
-        /* Popups Confined to Right Panel */
+ 
+        /* Popups */
         .popup {
             display: none;
-            position: absolute; 
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); 
+            background: rgba(0,0,0,0.8);
             z-index: 999;
             justify-content: center;
             align-items: center;
         }
         .popup-content {
-            background: #111;
+            background: #16213e;
+            color: #fff;
             padding: 40px;
             border-radius: 15px;
-            border: 3px solid #00d2ff;
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.5);
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.9);
+            border: 3px solid #4facfe;
+            min-width: 300px;
         }
-        .popup-content h2 { color: #ef4444; }
+        .popup.game-over h2 { color: #e94560; font-size: 32px; margin-top: 0; }
         .popup-content button {
-            background: #ff007f; color: #fff; font-weight: bold;
-            padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer;
-            transition: 0.2s;
+            margin-top: 20px;
+            background: #4facfe;
+            color: #fff;
+            font-size: 18px;
+            padding: 12px 25px;
         }
-        .popup-content button:hover { background: #e60073; }
-    </style>
+ 
+        /* Animations */
+        .korean-anim-text {
+            font-size: 45px;
+            font-weight: 900;
+            margin: 10px 0;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: bounceGlow 1s ease-in-out infinite alternate;
+        }
+ 
+        .korean-subtext {
+            font-size: 24px;
+            color: #ffeb3b;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+ 
+        .cute-face {
+            font-size: 30px;
+            display: block;
+            margin-top: 10px;
+        }
+ 
+        @keyframes bounceGlow {
+            0% { 
+                transform: translateY(0) scale(1); 
+                text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 30px #ff00de; 
+            }
+            100% { 
+                transform: translateY(-10px) scale(1.05); 
+                text-shadow: 0 0 20px #00f2fe, 0 0 30px #4facfe, 0 0 40px #4facfe; 
+            }
+        }
+ 
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+ 
+        /* Chocolate Falling Animation */
+        .confetti {
+            position: fixed;
+            top: -50px;
+            z-index: 1000;
+            animation: fall linear forwards;
+            user-select: none;
+        }
+ 
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(720deg); }
+        }
+</style>
 </head>
 <body>
-
-    <!-- Unified Dashboard Background Frame -->
+ 
     <div class="page-wrapper">
-        
-        <!-- Left Panel: 60% Width -->
-        <div class="left-panel">
-            
-            <div class="content-container">
-                <h2 class="busan-title">About Busan City</h2>
-                
-                <div class="scroll-wrapper">
-                    <!-- Scroll Inner contains the text duplicated twice for a flawless infinite loop -->
-                    <div class="scroll-inner">
-                        
-                        <!-- BLOCK 1 -->
-                        <div class="scroll-text">
-                            <p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
-                            
-                            <h3 class="color-1">📊 Key Facts</h3>
-                            <ul>
-                                <li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
-                                <li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
-                                <li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
-                            </ul>
-
-                            <h3 class="color-2">🎭 Tradition & Culture</h3>
-                            <ul>
-                                <li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
-                                <li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
-                                <li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
-                            </ul>
-
-                            <h3 class="color-3">👥 People & Lifestyle</h3>
-                            <ul>
-                                <li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
-                                <li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
-                                <li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
-                            </ul>
-
-                            <h3 class="color-4">🍜 Iconic Local Food</h3>
-                            <ul>
-                                <li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
-                                <li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
-                                <li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
-                            </ul>
-
-                            <h3 class="color-5">📸 Famous Landmarks</h3>
-                            <ul>
-                                <li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
-                                <li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
-                                <li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
-                                <li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
-                            </ul>
-
-                            <h3 class="color-1">😲 Fun Fact</h3>
-                            <p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
-                        </div>
-
-                        <!-- BLOCK 2 (Exact Clone of Block 1 for seamless scroll looping) -->
-                        <div class="scroll-text">
-                            <p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
-                            
-                            <h3 class="color-1">📊 Key Facts</h3>
-                            <ul>
-                                <li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
-                                <li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
-                                <li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
-                            </ul>
-
-                            <h3 class="color-2">🎭 Tradition & Culture</h3>
-                            <ul>
-                                <li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
-                                <li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
-                                <li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
-                            </ul>
-
-                            <h3 class="color-3">👥 People & Lifestyle</h3>
-                            <ul>
-                                <li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
-                                <li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
-                                <li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
-                            </ul>
-
-                            <h3 class="color-4">🍜 Iconic Local Food</h3>
-                            <ul>
-                                <li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
-                                <li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
-                                <li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
-                            </ul>
-
-                            <h3 class="color-5">📸 Famous Landmarks</h3>
-                            <ul>
-                                <li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
-                                <li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
-                                <li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
-                                <li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
-                            </ul>
-
-                            <h3 class="color-1">😲 Fun Fact</h3>
-                            <p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="video-container">
-                <!-- Swapped YouTube iframe for auto-looping HTML5 native video -->
-                <video autoplay loop muted playsinline>
-                    <source src="https://raw.githubusercontent.com/Hachikospace/New_puzzle/bcc3a145457c281ad8cd750979c7ab9c885e0a58/vidssave.com%2010%20Best%20Places%20to%20Visit%20in%20Busan%2C%20South%20Korea%20Travel%20Video%20Travel%20Guide%20SKY%20Travel%20720P.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+<!-- LEFT 40%: ABOUT BUSAN (No Box, Full Space) -->
+<div class="left-panel">
+<h2 class="busan-title">About Busan City</h2>
+<div class="scroll-wrapper">
+<div class="scroll-inner">
+<p><strong>Busan (부산)</strong>, officially Busan Metropolitan City, is South Korea's vibrant coastal capital. Nestled on the southeastern tip of the Korean Peninsula, it is a magnificent blend of beautiful beaches, majestic mountains, ancient temples, and towering futuristic skyscrapers.</p>
+<h3 class="color-3">📊 Key Facts</h3>
+<ul>
+<li><strong>Scale:</strong> Second-most populous city in South Korea (~3.3 million people).</li>
+<li><strong>Economy:</strong> The largest maritime port in Korea and the 6th busiest container port globally!</li>
+<li><strong>Layout:</strong> Woven beautifully into valleys and mountains, giving the city a stunning multi-leveled landscape.</li>
+</ul>
+ 
+                    <h3 class="color-2">🎭 Tradition & Culture</h3>
+<ul>
+<li><strong>Cinema Hub:</strong> Designated as a UNESCO Creative City of Film, hosting the world-famous <em>Busan International Film Festival (BIFF)</em> every autumn.</li>
+<li><strong>Maritime Roots:</strong> The culture is deeply connected to the sea. You will find massive fish markets and coastal villages filled with rich history.</li>
+<li><strong>Festivals:</strong> Home to the spectacular Busan Fireworks Festival and the colorful Haeundae Sand Festival.</li>
+</ul>
+ 
+                    <h3 class="color-1">👥 People & Lifestyle</h3>
+<ul>
+<li><strong>The Satoori Dialect:</strong> People from Busan speak a famous dialect called <em>"Satoori."</em> It sounds rough, energetic, and incredibly passionate compared to the softer Seoul dialect.</li>
+<li><strong>Warm Hearts:</strong> Locals are renowned for being loud but fiercely loyal, warm-hearted, and welcoming.</li>
+<li><strong>Baseball Craze:</strong> The city's baseball team, the <em>Lotte Giants</em>, has the most passionate and loudest fans in the entire country!</li>
+</ul>
+ 
+                    <h3 class="color-4">🍜 Iconic Local Food</h3>
+<ul>
+<li><strong>Dwaeji Gukbap:</strong> A hearty, soul-warming pork soup deeply tied to the city’s history during the Korean War.</li>
+<li><strong>Ssiat Hoddeok:</strong> A sweet, pan-fried dough pancake stuffed with brown sugar, sunflower seeds, and nuts.</li>
+<li><strong>Eomuk (Fish Cake):</strong> Busan makes the best and most famous fish cakes in all of South Korea.</li>
+</ul>
+ 
+                    <h3 class="color-5">📸 Famous Landmarks</h3>
+<ul>
+<li><strong>Haeundae Beach:</strong> The most famous beach in Korea, framed by modern luxury skyscrapers.</li>
+<li><strong>Gamcheon Culture Village:</strong> Often called the "Machu Picchu of Busan," it is a gorgeous, steeply-sloped village painted in pastel colors.</li>
+<li><strong>Haedong Yonggungsa:</strong> A rare and breathtaking Buddhist temple built directly on the rocky ocean cliffs.</li>
+<li><strong>Jagalchi Market:</strong> The nation’s largest seafood market, bustling with energetic merchants.</li>
+</ul>
+ 
+                    <h3 class="color-1">😲 Fun Fact</h3>
+<p>Busan is home to <strong>Shinsegae Centum City</strong>, which holds the Guinness World Record for being the largest department store in the world!</p>
+</div>
+</div>
+</div>
+ 
+        <!-- RIGHT 60%: MAIN PUZZLE GAME -->
+<div class="right-panel">
+<h1 class="chocolate-heading">Play puzzle and win chocolate 🍫</h1>
+<div class="controls">
+<button class="start-btn" onclick="startGame()">Start Game</button>
+<button class="reset-btn" onclick="resetGame()">Reset Board</button>
+</div>
+ 
+            <div class="timer-board">Time Left: <span id="time">30</span>s</div>
+ 
+            <div id="game-board"></div>
+ 
         </div>
-
-        <!-- Right Panel: 40% Width -->
-        <div class="right-panel">
-            
-            <div class="controls-wrapper">
-                <h1 class="game-heading">Play puzzle and win chocolate 🍫</h1>
-                
-                <div class="difficulty-btns">
-                    <button class="btn-easy" onclick="selectLevel('easy')">Easy (3x3)</button>
-                    <button class="btn-medium" onclick="selectLevel('medium')">Medium (3x4)</button>
-                    <button class="btn-hard" onclick="selectLevel('hard')">Hard (4x4)</button>
-                </div>
-
-                <button class="start-btn" onclick="startGame()">Start Game</button>
-
-                <div class="timer-board">Time Left: <span id="time">30</span>s</div>
-            </div>
-
-            <div class="puzzle-container">
-                <div id="game-board"></div>
-            </div>
-
-            <div id="popup-gameover" class="popup">
-                <div class="popup-content">
-                    <h2>Time's Up! 😭</h2>
-                    <p>You ran out of time.</p>
-                    <button onclick="closePopups()">Try Again</button>
-                </div>
-            </div>
-
-            <div id="popup-win" class="popup">
-                <div class="popup-content">
-                    <h2 style="color: #22c55e;">🎉 WOW YOU WON! 🎉</h2>
-                    <p>Collect your chocolate!</p>
-                    <button onclick="closePopups()">Play Again</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+</div>
+ 
+    <!-- Game Over Popup -->
+<div id="popup-gameover" class="popup game-over">
+<div class="popup-content">
+<h2>Time's Up! 😭</h2>
+<p>You ran out of time.</p>
+<button onclick="closePopups(); resetGame();">Try Again</button>
+</div>
+</div>
+ 
+    <!-- Win Popup -->
+<div id="popup-win" class="popup win">
+<div class="popup-content">
+<div class="korean-anim-text">✨ WOW YOU WON! ✨</div>
+<div class="korean-subtext">대박! 축하해요! <br> <span class="cute-face">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</span></div>
+<button onclick="closePopups(); resetGame();">Play Again</button>
+</div>
+</div>
+ 
     <script>
         const gameBoard = document.getElementById('game-board');
         const timeDisplay = document.getElementById('time');
-        
         let timerId;
-        let timeLeft = 30; 
+        let timeLeft = 30; // Strictly set to 30 seconds
         let isPlaying = false;
-        
-        let firstTile = null; 
-        let dragSrcEl = null; 
-
-        // Current grid state
-        let currentCols = 3;
-        let currentRows = 3;
-
-        // I have swapped out your broken links for high-quality, working Unsplash images of Busan!
-        const images = [
-            "https://images.unsplash.com/photo-1613987549117-13c4781b32d3?q=80&w=640&h=480&fit=crop", // Haeundae Beach Area
-            "https://images.unsplash.com/photo-1590243501066-51c073fde820?q=80&w=640&h=480&fit=crop", // Gamcheon Culture Village
-            "https://images.unsplash.com/photo-1598505500052-19e49633e728?q=80&w=640&h=480&fit=crop", // Gwangan Bridge
-            "https://images.unsplash.com/photo-1582236353982-1fb89eb2dfbc?q=80&w=640&h=480&fit=crop", // Temple by the Sea
-            "https://images.unsplash.com/photo-1588698188170-13f56ce246e4?q=80&w=640&h=480&fit=crop"  // Skyline
-        ];
-
-        function selectLevel(difficulty) {
-            clearInterval(timerId);
-            isPlaying = false;
-            firstTile = null;
-            timeLeft = 30; 
-            timeDisplay.innerText = timeLeft;
-
-            if (difficulty === 'easy') { currentCols = 3; currentRows = 3; }
-            else if (difficulty === 'medium') { currentCols = 3; currentRows = 4; }
-            else { currentCols = 4; currentRows = 4; }
-
-            const randomImg = images[Math.floor(Math.random() * images.length)];
-            initBoard(currentCols, currentRows, randomImg);
+        let firstSelectedTile = null;
+        let dragSrcEl = null;
+ 
+        const cols = 4;
+        const rows = 4;
+ 
+        function initBoard() {
+            gameBoard.innerHTML = '';
+            gameBoard.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            gameBoard.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            const tileWidth = 800 / cols;
+            const tileHeight = 400 / rows;
+            const totalTiles = cols * rows;
+ 
+            for (let i = 0; i < totalTiles; i++) {
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                let x = (i % cols) * tileWidth;
+                let y = Math.floor(i / cols) * tileHeight;
+                tile.style.backgroundPosition = `-${x}px -${y}px`;
+                tile.dataset.correctIndex = i; 
+                tile.dataset.currentIndex = i; 
+                tile.addEventListener('click', onTileClick);
+                tile.setAttribute('draggable', 'true');
+                tile.addEventListener('dragstart', handleDragStart);
+                tile.addEventListener('dragover', handleDragOver);
+                tile.addEventListener('drop', handleDrop);
+                tile.addEventListener('dragend', handleDragEnd);
+ 
+                gameBoard.appendChild(tile);
+            }
         }
-
+ 
+        function shuffleTiles() {
+            let tiles = Array.from(document.querySelectorAll('.tile'));
+            for (let i = tiles.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                swapTiles(tiles[i], tiles[j]);
+            }
+        }
+ 
+        function swapTiles(tile1, tile2) {
+            let tempBg = tile1.style.backgroundPosition;
+            tile1.style.backgroundPosition = tile2.style.backgroundPosition;
+            tile2.style.backgroundPosition = tempBg;
+ 
+            let tempIndex = tile1.dataset.currentIndex;
+            tile1.dataset.currentIndex = tile2.dataset.currentIndex;
+            tile2.dataset.currentIndex = tempIndex;
+        }
+ 
+        function handleDragStart(e) {
+            if (!isPlaying) {
+                e.preventDefault();
+                alert("Please click 'Start Game' first to shuffle the pieces!");
+                return;
+            }
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', '');
+            this.classList.add('selected');
+        }
+ 
+        function handleDragOver(e) {
+            if (!isPlaying) return;
+            e.preventDefault(); 
+            return false;
+        }
+ 
+        function handleDrop(e) {
+            if (!isPlaying) return;
+            e.stopPropagation();
+            if (dragSrcEl !== this) {
+                swapTiles(dragSrcEl, this);
+                setTimeout(checkWinCondition, 100);
+            }
+            return false;
+        }
+ 
+        function handleDragEnd(e) {
+            let tiles = document.querySelectorAll('.tile');
+            tiles.forEach(t => t.classList.remove('selected'));
+        }
+ 
+        function onTileClick(e) {
+            if (!isPlaying) {
+                alert("Please click 'Start Game' first to shuffle the pieces!");
+                return;
+            }
+ 
+            let clickedTile = e.target;
+ 
+            if (!firstSelectedTile) {
+                firstSelectedTile = clickedTile;
+                firstSelectedTile.classList.add('selected');
+            } else {
+                if (firstSelectedTile === clickedTile) {
+                    firstSelectedTile.classList.remove('selected');
+                    firstSelectedTile = null;
+                    return;
+                }
+                swapTiles(firstSelectedTile, clickedTile);
+                firstSelectedTile.classList.remove('selected');
+                firstSelectedTile = null;
+                setTimeout(checkWinCondition, 100); 
+            }
+        }
+ 
+        function checkWinCondition() {
+            let tiles = Array.from(document.querySelectorAll('.tile'));
+            let isWin = tiles.every(tile => tile.dataset.correctIndex === tile.dataset.currentIndex);
+            if (isWin) {
+                clearInterval(timerId);
+                isPlaying = false;
+                document.getElementById('popup-win').style.display = 'flex';
+                triggerChocolateConfetti(); 
+            }
+        }
+ 
+        function triggerChocolateConfetti() {
+            const emojis = ['🍫', '🍫', '🍬', '🎉', '✨']; 
+            for (let i = 0; i < 60; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.fontSize = (Math.random() * 25 + 15) + 'px'; 
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'; 
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+ 
         function startGame() {
             if (isPlaying) return; 
-            
+            initBoard();
             shuffleTiles();
             isPlaying = true;
-            firstTile = null;
-            timeLeft = 30;
+            firstSelectedTile = null;
+            timeLeft = 25; 
             timeDisplay.innerText = timeLeft;
-
             clearInterval(timerId);
             timerId = setInterval(() => {
                 timeLeft--;
@@ -481,125 +507,23 @@
                 }
             }, 1000);
         }
-
-        function initBoard(cols, rows, img) {
-            gameBoard.innerHTML = '';
-            gameBoard.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-            gameBoard.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-            
-            const total = cols * rows;
-            const w = 640 / cols;
-            const h = 480 / rows;
-
-            for (let i = 0; i < total; i++) {
-                let tile = document.createElement('div');
-                tile.classList.add('tile');
-                tile.style.backgroundImage = `url('${img}')`;
-                
-                let x = (i % cols) * w;
-                let y = Math.floor(i / cols) * h;
-                
-                tile.style.backgroundPosition = `-${x}px -${y}px`;
-                tile.dataset.correctPos = tile.style.backgroundPosition;
-                
-                tile.addEventListener('click', () => handleTileClick(tile));
-                
-                tile.setAttribute('draggable', 'true');
-                tile.addEventListener('dragstart', handleDragStart);
-                tile.addEventListener('dragover', handleDragOver);
-                tile.addEventListener('drop', handleDrop);
-                tile.addEventListener('dragend', handleDragEnd);
-
-                gameBoard.appendChild(tile);
-            }
+ 
+        function resetGame() {
+            clearInterval(timerId);
+            isPlaying = false;
+            timeLeft = 25; 
+            timeDisplay.innerText = timeLeft;
+            firstSelectedTile = null;
+            initBoard(); 
         }
-
-        function shuffleTiles() {
-            let tiles = Array.from(document.querySelectorAll('.tile'));
-            for (let i = 0; i < 100; i++) {
-                let a = Math.floor(Math.random() * tiles.length);
-                let b = Math.floor(Math.random() * tiles.length);
-                swap(tiles[a], tiles[b]);
-            }
-        }
-
-        function handleDragStart(e) {
-            if (!isPlaying) {
-                e.preventDefault();
-                alert("Please click 'Start Game' to shuffle and begin!");
-                return;
-            }
-            dragSrcEl = this;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', '');
-            this.classList.add('selected');
-        }
-
-        function handleDragOver(e) {
-            if (!isPlaying) return;
-            e.preventDefault(); 
-            return false;
-        }
-
-        function handleDrop(e) {
-            if (!isPlaying) return;
-            e.stopPropagation();
-            if (dragSrcEl !== this) {
-                swap(dragSrcEl, this);
-                setTimeout(checkWin, 100);
-            }
-            return false;
-        }
-
-        function handleDragEnd(e) {
-            let tiles = document.querySelectorAll('.tile');
-            tiles.forEach(t => t.classList.remove('selected'));
-        }
-
-        function handleTileClick(tile) {
-            if (!isPlaying) {
-                alert("Please click 'Start Game' to shuffle and begin!");
-                return;
-            }
-
-            if (!firstTile) {
-                firstTile = tile;
-                tile.classList.add('selected');
-            } else {
-                if (firstTile === tile) {
-                    firstTile.classList.remove('selected');
-                    firstTile = null;
-                    return;
-                }
-                swap(firstTile, tile);
-                firstTile.classList.remove('selected');
-                firstTile = null;
-                setTimeout(checkWin, 100);
-            }
-        }
-
-        function swap(t1, t2) {
-            let pos1 = t1.style.backgroundPosition;
-            t1.style.backgroundPosition = t2.style.backgroundPosition;
-            t2.style.backgroundPosition = pos1;
-        }
-
-        function checkWin() {
-            let tiles = Array.from(document.querySelectorAll('.tile'));
-            let win = tiles.every(t => t.style.backgroundPosition === t.dataset.correctPos);
-            if (win) {
-                clearInterval(timerId);
-                isPlaying = false;
-                document.getElementById('popup-win').style.display = 'flex';
-            }
-        }
-
+ 
         function closePopups() {
-            document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
-            selectLevel(currentCols === 4 && currentRows === 4 ? 'hard' : currentCols === 3 && currentRows === 4 ? 'medium' : 'easy');
+            document.getElementById('popup-gameover').style.display = 'none';
+            document.getElementById('popup-win').style.display = 'none';
         }
-
-        window.onload = () => selectLevel('easy');
+ 
+        window.onload = initBoard;
+ 
     </script>
 </body>
 </html>
