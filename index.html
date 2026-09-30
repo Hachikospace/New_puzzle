@@ -608,3 +608,287 @@
 </script>
 </body>
 </html>
+
+//
+package pageObject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class AccountRegistrationPage extends BasePage {
+	
+	
+	public AccountRegistrationPage(WebDriver driver) {
+		super(driver);
+		}
+		
+		@FindBy(xpath = "//input[@id='input-firstname']")
+		WebElement txtFirstname;
+		
+		@FindBy(xpath = "//input[@id='input-lastname']")
+		WebElement txtLastname;
+		
+		@FindBy(xpath = "//input[@id='input-email']")
+		WebElement txtEmail;
+		
+		@FindBy(xpath = "//input[@id='input-telephone']")
+		WebElement txtTelephone;
+		
+		@FindBy(xpath = "//input[@id='input-password']")
+		WebElement txtPassword;
+		
+		@FindBy(xpath = "//input[@id='input-confirm']")
+		WebElement txtConfirmPassword;
+		@FindBy(xpath="//input[@name='agree']")
+		WebElement chkPolicy;
+
+		@FindBy(xpath="//input[@value='Continue']")
+		WebElement btnContinue;
+
+		@FindBy(xpath = "//h1[normalize-space()='Your Account Has Been Created!']")
+		WebElement msgConfirmation;
+
+		public void setFirstName(String fname) {
+		    txtFirstname.sendKeys(fname);
+		}
+
+		public void setLastName(String lname) {
+		    txtLastname.sendKeys(lname);
+		}
+		public void setEmail(String email) {
+		    txtEmail.sendKeys(email);
+		}
+
+		public void setTelephone(String tel) {
+		    txtTelephone.sendKeys(tel);
+		}
+
+		public void setPassword(String pwd) {
+		    txtPassword.sendKeys(pwd);
+		}
+
+		public void setConfirmPassword(String pwd) {
+		    txtConfirmPassword.sendKeys(pwd);
+		}
+
+		public void setPrivacyPolicy() {
+		    chkPolicy.click();
+		}
+
+		public void clickContinue() {
+
+		    // sol1
+		    btnContinue.click();
+
+		    // sol2
+		    // btnContinue.submit();
+
+		    // sol3
+		    // Actions act = new Actions(driver);
+		    // act.moveToElement(btnContinue).click().perform();
+
+		    // sol4
+		    // JavascriptExecutor js = (JavascriptExecutor) driver;
+		    // js.executeScript("arguments[0].click();", btnContinue);
+
+		    // sol5
+		    // btnContinue.sendKeys(Keys.RETURN);
+
+		    // sol6
+		    // WebDriverWait mywait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		    // mywait.until(ExpectedConditions.elementToBeClickable(btnContinue)).click();
+		}
+
+		public String getConfirmationMsg() {
+		    try {
+		        return (msgConfirmation.getText());
+		    } catch (Exception e) {
+		        return (e.getMessage());
+		    }
+		}}
+
+package pageObject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+
+public class BasePage {
+	
+	WebDriver driver;
+	
+	public BasePage(WebDriver driver)
+	{
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+
+}
+
+package pageObject;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class HomePage extends BasePage{
+	public HomePage(WebDriver driver) {
+		super(driver);
+		}
+		
+		@FindBy(xpath = "//span[normalize-space()='My Account']")
+		WebElement lnkMyaccount;
+		
+		@FindBy(xpath = "//a[normalize-space()='Register']")
+		WebElement lnkRegister;
+		
+		public void clickMyAccount() {
+		lnkMyaccount.click();
+		}
+		
+		public void clickRegister() {
+		lnkRegister.click();
+		}
+		}
+
+
+package testCases;
+
+import java.time.Duration;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
+public class BaseClass {
+	
+	    public WebDriver driver;
+
+	    @BeforeClass
+	    public void setup() {
+
+	        driver = new ChromeDriver();
+
+	        driver.manage().deleteAllCookies();
+	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+	        driver.get("http://localhost/opencart/upload/index.php");
+	        driver.manage().window().maximize();
+	    }
+
+	    @AfterClass
+	    public void tearDown() {
+	        driver.quit();
+	    }
+
+	    public String randomString() {
+	        return RandomStringUtils.randomAlphabetic(5);
+	    }
+
+	    public String randomNumber() {
+	        return RandomStringUtils.randomNumeric(10);
+	    }
+
+	    public String randomAlphaNumeric() {
+	        String generatedString = RandomStringUtils.randomAlphabetic(3);
+	        String generatedNumber = RandomStringUtils.randomNumeric(3);
+
+	        return generatedString + "@" + generatedNumber;
+	    }
+	}
+
+package testCases;
+
+import java.time.Duration;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+
+public class BaseClass {
+	
+	    public WebDriver driver;
+
+	    @BeforeClass
+	    public void setup() {
+
+	        driver = new ChromeDriver();
+
+	        driver.manage().deleteAllCookies();
+	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+	        driver.get("http://localhost/opencart/upload/index.php");
+	        driver.manage().window().maximize();
+	    }
+
+	    @AfterClass
+	    public void tearDown() {
+	        driver.quit();
+	    }
+
+	    public String randomString() {
+	        return RandomStringUtils.randomAlphabetic(5);
+	    }
+
+	    public String randomNumber() {
+	        return RandomStringUtils.randomNumeric(10);
+	    }
+
+	    public String randomAlphaNumeric() {
+	        String generatedString = RandomStringUtils.randomAlphabetic(3);
+	        String generatedNumber = RandomStringUtils.randomNumeric(3);
+
+	        return generatedString + "@" + generatedNumber;
+	    }
+	}
+
+  package testCases;
+
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+
+
+import pageObject.AccountRegistrationPage;
+import pageObject.HomePage;
+
+public class TC001_AccountRegistrationTest extends BaseClass {
+
+	public WebDriver driver;
+
+	@Test
+	public void verify_account_registration() {
+	
+	HomePage hp = new HomePage(driver);
+	hp.clickMyAccount();
+	hp.clickRegister();
+	
+	AccountRegistrationPage regpage = new AccountRegistrationPage(driver);
+	
+	regpage.setFirstName("John");
+	regpage.setLastName("David");
+	regpage.setEmail("abcjohndavi@gmail.com"); // random email recommended
+	regpage.setTelephone("23123123");
+
+	// String password = randomAlphaNumeric();
+	regpage.setPassword("xyz12356");
+	regpage.setConfirmPassword("xyz12356");
+	
+	regpage.setPrivacyPolicy();
+	regpage.clickContinue();
+	
+	String confmsg = regpage.getConfirmationMsg();
+	
+Assert.assertEquals(confmsg, "Your Account Has Been Created!");
+	}}
+
